@@ -1,0 +1,113 @@
+name: Enterprise MLOps CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master, dev, "feat/**" ]
+  pull_request:
+    branches: [ main, master, dev ]
+
+# Push liên tiếp -> tự động hủy run cũ để tránh lãng phí CI minutes
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.11"
+  RUFF_VERSION: "0.8.6"
+
+jobs:
+  lint:
+    name: Code Quality & Formatting (Ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install Ruff & Flake8
+        run: pip install ruff==${{ env.RUFF_VERSION }} flake8
+
+      - name: Ruff Code Quality Check
+        run: ruff check --output-format=github . || true
+
+      - name: Ruff Formatting Check
+        run: ruff format --check . || true
+
+      - name: Flake8 Syntax Check
+        run: flake8 src/ --count --select=E9,F63,F7,F82 --show-source --statistics
+
+  test:
+    name: Unit Test & Coverage Suite
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install Lightweight Dependencies (CPU PyTorch & Dev Tools)
+        run: |
+          python -m pip install --upgrade pip
+          # Cài PyTorch bản CPU siêu nhẹ (~150MB thay vì 2.5GB CUDA) giúp CI chạy cực nhanh
+          pip install --extra-index-url https://download.pytorch.org/whl/cpu torch
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Run PyTest Suite
+        run: PYTHONPATH=. pytest tests/ -v --cov=src --cov-report=term-missing --cov-report=xml
+
+      - name: Upload Test Coverage Artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-xml
+          path: coverage.xml
+          if-no-files-found: ignore
+
+  validate-config:
+    name: Validate Compose & Monitoring Configs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Validate Docker Compose Config
+        run: docker compose config --quiet
+
+      - name: Validate Prometheus Config (promtool)
+        run: |
+          docker run --rm --entrypoint promtool \
+            -v "${{ github.workspace }}:/etc/prometheus:ro" \
+            prom/prometheus:latest check config /etc/prometheus/prometheus.yml
+
+  docker-build:
+    name: Build Docker Container
+    needs: [lint, test, validate-config]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image with Buildkit Cache
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: recommendation-system:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
