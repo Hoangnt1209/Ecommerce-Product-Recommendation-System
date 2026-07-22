@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Caches
+# Caches & Test Coverage
 .pytest_cache/
 .coverage
 coverage.xml
@@ -13,7 +13,14 @@ coverage.xml
 venv/
 ENV/
 
-# Large Datasets & Checkpoints (Keep structure, exclude heavy binaries)
+# Model Checkpoints & Large Pickles (Exclude heavy binary weights from Git)
+checkpoints/*.pkl
+checkpoints/*.pt
+checkpoints/*.pth
+*.pkl
+
+# Large Datasets & DBs
+dataset/*.json
 dataset/*.json.gz
 mlruns/
 *.db
