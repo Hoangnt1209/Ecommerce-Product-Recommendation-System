@@ -19,6 +19,15 @@ class DataPreprocessor:
         """
         Calculates matrix sparsity, interaction density, and user/item activity distributions.
         """
+        if df.empty or 'reviewerID' not in df.columns or 'asin' not in df.columns:
+            return {
+                'num_users': 0, 'num_items': 0, 'num_interactions': 0,
+                'matrix_density_pct': 0.0, 'matrix_sparsity_pct': 100.0,
+                'single_rating_users': 0, 'single_rating_users_pct': 0.0,
+                'single_rating_items': 0, 'single_rating_items_pct': 0.0,
+                'avg_user_activity': 0.0, 'avg_item_popularity': 0.0
+            }
+
         num_users = df['reviewerID'].nunique()
         num_items = df['asin'].nunique()
         num_interactions = len(df)
