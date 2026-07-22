@@ -13,10 +13,11 @@ coverage.xml
 venv/
 ENV/
 
-# Model Checkpoints & Large Pickles (Exclude heavy binary weights from Git)
+# Model Checkpoints, Pickles & Recommendation Cache
 checkpoints/*.pkl
 checkpoints/*.pt
 checkpoints/*.pth
+checkpoints/recommendation_cache/
 *.pkl
 
 # Large Datasets & DBs
