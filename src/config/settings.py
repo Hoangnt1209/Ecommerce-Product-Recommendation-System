@@ -1,6 +1,6 @@
 import os
 from pydantic_settings import BaseSettings
-from typing import List, Union, Optional
+from typing import List, Optional
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Amazon E-Commerce Recommendation System"

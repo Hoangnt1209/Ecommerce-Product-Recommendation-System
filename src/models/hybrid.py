@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 from typing import List, Dict, Any, Optional
 from src.models.classical_ml import SVDRecommender, ContentBasedRecommender, AssociationRuleMiner
 from src.models.deep_learning import NCFTrainer
@@ -321,8 +320,10 @@ class HybridRecommender:
             similar_items = [it for it in svd_items if it.get('category', 'General').split(' > ')[0] in purchased_main_cats]
             cross_sell_items = [it for it in svd_items if it.get('category', 'General').split(' > ')[0] not in purchased_main_cats]
             
-            for it in similar_items: it['type'] = 'similar'
-            for it in cross_sell_items: it['type'] = 'cross_sell'
+            for it in similar_items:
+                it['type'] = 'similar'
+            for it in cross_sell_items:
+                it['type'] = 'cross_sell'
 
             if len(similar_items) < half_k:
                 similar_items += self._generate_similar_candidates(target_items, exclude_asins=purchased_asins, top_k=half_k - len(similar_items))
@@ -358,8 +359,10 @@ class HybridRecommender:
             else:
                 similar_items, cross_sell_items = [], []
 
-            for it in similar_items: it['type'] = 'similar'
-            for it in cross_sell_items: it['type'] = 'cross_sell'
+            for it in similar_items:
+                it['type'] = 'similar'
+            for it in cross_sell_items:
+                it['type'] = 'cross_sell'
 
             if len(similar_items) < half_k:
                 similar_items += self._generate_similar_candidates(target_items, exclude_asins=purchased_asins, top_k=half_k - len(similar_items))

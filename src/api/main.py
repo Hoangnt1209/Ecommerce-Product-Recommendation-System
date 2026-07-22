@@ -4,7 +4,6 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from src.config.settings import settings
-from src.services.recommendation_service import recommendation_service
 from src.api.routes import health, recommend, explain, metrics, ui
 
 @asynccontextmanager

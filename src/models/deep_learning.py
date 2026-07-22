@@ -3,7 +3,6 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 import numpy as np
-import pandas as pd
 from typing import List, Tuple, Optional
 
 class InteractionDataset(Dataset):
