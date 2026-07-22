@@ -81,12 +81,17 @@ Slide 12: Tổng Kết & Q&A
 ---
 
 ### 🟢 SLIDE 5: XỬ LÝ DỮ LIỆU & FEATURE ENGINEERING
-- **Tiêu đề slide:** Data Pipeline & Kỹ Thuật Biến Đổi Đặc Trưng
+- **Tiêu đề slide:** Data Pipeline, Quy Trình Tiền Xử Lý & Quy Mô Dữ Liệu
 - **Nội dung ghi trên slide:**
-  - **Tập dữ liệu đa miền (Multi-Domain Dataset):** Kết hợp 2 tập dữ liệu Amazon: **Cell Phones & Accessories** và **Electronics** (Reviews JSON & Metadata).
-  - **Data Ingestion & Cleaning:** Nạp dữ liệu đa miền, lọc ma trận thưa (Matrix Sparsity Filter - xóa user/item có quá ít tương tác).
-  - **ID Index Mapping:** Mã hóa `user_id` và `item_id` thành các chỉ số số nguyên (`user_idx`, `item_idx`) tối ưu bộ nhớ.
-  - **Bayesian Weighted Rating:** Tính điểm trung bình Bayesian cho sản phẩm để tránh trường hợp sản phẩm chỉ có 1 đánh giá 5 sao vượt mặt sản phẩm uy tín lâu năm.
+  - **Quy mô tập dữ liệu (Dataset Scale):** 
+    - Kết hợp 2 tập dữ liệu đa miền: **Amazon Cell Phones & Accessories** và **Amazon Electronics**.
+    - Quy mô Full Dataset huấn luyện thực tế: **206,600 User duy nhất** và **73,026 Sản Phẩm duy nhất**.
+  - **Quy trình Tiền Xử Lý Dữ Liệu (5 Bước Data Pipeline):**
+    1. **Data Ingestion:** Nạp dữ liệu đa miền theo luồng từ các tệp Reviews JSON & Metadata.
+    2. **Sparsity & Activity Filter:** Lọc nhiễu ma trận thưa (`min_user_ratings=2`, `min_item_ratings=2`).
+    3. **Dense ID Index Mapping:** Mã hóa chuỗi `reviewerID` & `asin` thành chỉ số số nguyên (`user_idx`, `item_idx`) tối ưu bộ nhớ Tensor PyTorch & Ma trận thưa CSR.
+    4. **Bayesian Weighted Rating:** Tính điểm trung bình Bayesian cân bằng giữa số lượt review và điểm trung bình để loại bỏ hiện tượng sản phẩm 1 review 5 sao áp đảo.
+    5. **Chiến lược Thử nghiệm (Benchmarking Strategy):** Quản lý qua MLflow từ các mức thử nghiệm (10k, 150k, 350k mẫu) cho đến **100% Full Dataset (206.6k users)**.
 
 ---
 
