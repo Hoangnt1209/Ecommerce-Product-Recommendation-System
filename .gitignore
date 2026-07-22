@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches
+.pytest_cache/
+.coverage
+coverage.xml
+
+# Environments
+.venv/
+venv/
+ENV/
+
+# Large Datasets & Checkpoints (Keep structure, exclude heavy binaries)
+dataset/*.json.gz
+mlruns/
+*.db
+*.sqlite
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
