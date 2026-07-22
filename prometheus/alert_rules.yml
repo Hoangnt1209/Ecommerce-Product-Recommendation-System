@@ -1,0 +1,29 @@
+groups:
+  - name: recommendation_service_alerts
+    rules:
+      - alert: HighInferenceLatency
+        expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job="recommendation_service"}[5m])) by (le)) > 0.1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High API Recommendation Latency (p95 > 100ms)"
+          description: "The 95th percentile latency of recommendation API endpoints has exceeded 100ms for over 1 minute."
+
+      - alert: HighErrorRate
+        expr: sum(rate(http_requests_total{status=~"5..", job="recommendation_service"}[5m])) / sum(rate(http_requests_total{job="recommendation_service"}[5m])) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High HTTP 5xx Error Rate (> 5%)"
+          description: "Over 5% of API requests returned 5xx server errors in the last 2 minutes."
+
+      - alert: RecommendationServiceDown
+        expr: up{job="recommendation_service"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "FastAPI Recommendation Instance Down"
+          description: "The recommendation service API endpoint is unreachable."
