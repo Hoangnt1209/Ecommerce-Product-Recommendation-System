@@ -25,7 +25,9 @@ class SVDRecommender:
         
         self.user_item_matrix = csr_matrix((ratings, (rows, cols)), shape=(num_users, num_items))
         
-        # Fit SVD
+        # Fit SVD with dynamic component scaling for small matrices / test environments
+        actual_k = min(self.n_components, max(1, min(num_users, num_items) - 1))
+        self.svd = TruncatedSVD(n_components=actual_k, random_state=self.random_state)
         self.user_factors = self.svd.fit_transform(self.user_item_matrix)
         self.item_factors = self.svd.components_ # shape (n_components, num_items)
         return self

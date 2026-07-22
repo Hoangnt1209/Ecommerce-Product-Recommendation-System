@@ -61,7 +61,11 @@ def load_raw_reviews(reviews_paths: Union[str, List[str]], limit: Optional[int] 
             {'reviewerID': 'TEST_USER_456', 'asin': 'B0009MYS9S', 'overall': 4.0, 'unixReviewTime': 1600000000, 'summary': 'Nice audio', 'reviewText': 'Solid quality'},
             {'reviewerID': 'TEST_USER_456', 'asin': 'B0002OKCXE', 'overall': 5.0, 'unixReviewTime': 1600000000, 'summary': 'Great keyboard', 'reviewText': 'Responsive'},
             {'reviewerID': 'TEST_USER_789', 'asin': '6073894996', 'overall': 5.0, 'unixReviewTime': 1600000000, 'summary': 'Compact charger', 'reviewText': 'Works well'},
-            {'reviewerID': 'TEST_USER_789', 'asin': 'B0002OKCXE', 'overall': 3.0, 'unixReviewTime': 1600000000, 'summary': 'Okay keyboard', 'reviewText': 'Decent'}
+            {'reviewerID': 'TEST_USER_789', 'asin': 'B0002OKCXE', 'overall': 3.0, 'unixReviewTime': 1600000000, 'summary': 'Okay keyboard', 'reviewText': 'Decent'},
+            {'reviewerID': 'USER_ACC_100', 'asin': 'ACC_CASE_01', 'overall': 5.0, 'unixReviewTime': 1600000000, 'summary': 'Durable case', 'reviewText': 'Fits well'},
+            {'reviewerID': 'USER_ACC_100', 'asin': 'ACC_CABLE_02', 'overall': 4.0, 'unixReviewTime': 1600000000, 'summary': 'Fast charging cable', 'reviewText': 'Strong wire'},
+            {'reviewerID': 'USER_ACC_200', 'asin': 'ACC_CASE_01', 'overall': 4.0, 'unixReviewTime': 1600000000, 'summary': 'Sleek cover', 'reviewText': 'Good grip'},
+            {'reviewerID': 'USER_ACC_200', 'asin': 'ACC_MOUNT_03', 'overall': 5.0, 'unixReviewTime': 1600000000, 'summary': 'Car mount holder', 'reviewText': 'Sturdy holder'}
         ]
                     
     return pd.DataFrame(records)
@@ -121,7 +125,10 @@ def load_raw_meta(meta_paths: Union[str, List[str]], limit: Optional[int] = None
         records = [
             {'asin': 'B0009MYS9S', 'title': 'High-Fidelity Bluetooth Headphones', 'price': 49.99, 'category': 'Audio > Headphones', 'imUrl': 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300', 'brand': 'AudioPhile'},
             {'asin': '6073894996', 'title': 'Fast Dual USB Wall Charger 20W', 'price': 15.99, 'category': 'Accessories > Chargers', 'imUrl': 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=300', 'brand': 'PowerMax'},
-            {'asin': 'B0002OKCXE', 'title': 'Ergonomic Wireless Mechanical Keyboard', 'price': 79.99, 'category': 'Peripherals > Keyboards', 'imUrl': 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=300', 'brand': 'TechGear'}
+            {'asin': 'B0002OKCXE', 'title': 'Ergonomic Wireless Mechanical Keyboard', 'price': 79.99, 'category': 'Peripherals > Keyboards', 'imUrl': 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=300', 'brand': 'TechGear'},
+            {'asin': 'ACC_CASE_01', 'title': 'Heavy Duty Protective Phone Case Cover', 'price': 12.99, 'category': 'Accessories > Phone Cases', 'imUrl': 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=300', 'brand': 'ShieldPro'},
+            {'asin': 'ACC_CABLE_02', 'title': 'Braided Fast Charging USB-C Cable', 'price': 9.99, 'category': 'Accessories > Cables', 'imUrl': 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=300', 'brand': 'CableTech'},
+            {'asin': 'ACC_MOUNT_03', 'title': 'Universal Magnetic Car Phone Mount Holder', 'price': 18.99, 'category': 'Accessories > Car Mounts', 'imUrl': 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=300', 'brand': 'DriveEase'}
         ]
                     
     return pd.DataFrame(records).drop_duplicates(subset=['asin'])
