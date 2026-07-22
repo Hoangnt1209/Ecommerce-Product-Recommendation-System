@@ -83,8 +83,8 @@ Slide 12: Tổng Kết & Q&A
 ### 🟢 SLIDE 5: XỬ LÝ DỮ LIỆU & FEATURE ENGINEERING
 - **Tiêu đề slide:** Data Pipeline & Kỹ Thuật Biến Đổi Đặc Trưng
 - **Nội dung ghi trên slide:**
-  - **Tập dữ liệu:** Amazon Cell Phones & Accessories (Reviews JSON & Metadata).
-  - **Data Ingestion & Cleaning:** Lọc ma trận thưa (Matrix Sparsity Filter - xóa user/item có quá ít tương tác).
+  - **Tập dữ liệu đa miền (Multi-Domain Dataset):** Kết hợp 2 tập dữ liệu Amazon: **Cell Phones & Accessories** và **Electronics** (Reviews JSON & Metadata).
+  - **Data Ingestion & Cleaning:** Nạp dữ liệu đa miền, lọc ma trận thưa (Matrix Sparsity Filter - xóa user/item có quá ít tương tác).
   - **ID Index Mapping:** Mã hóa `user_id` và `item_id` thành các chỉ số số nguyên (`user_idx`, `item_idx`) tối ưu bộ nhớ.
   - **Bayesian Weighted Rating:** Tính điểm trung bình Bayesian cho sản phẩm để tránh trường hợp sản phẩm chỉ có 1 đánh giá 5 sao vượt mặt sản phẩm uy tín lâu năm.
 
