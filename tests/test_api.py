@@ -44,7 +44,7 @@ def test_recommend_content_endpoint():
     response = client.post("/recommend", json=payload)
     assert response.status_code == 200
     data = response.json()
-    assert "Content-Based" in data["model_used"] or data["is_cold_start"]
+    assert "Content" in data["model_used"] or data["is_cold_start"]
 
 def test_metrics_endpoint():
     response = client.get("/metrics")

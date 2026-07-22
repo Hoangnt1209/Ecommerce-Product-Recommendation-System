@@ -126,7 +126,8 @@ def train_and_evaluate(
         mlflow.log_artifact(content_path)
         mlflow.log_artifact(assoc_path)
         mlflow.log_artifact(ncf_weights_path)
-        mlflow.pytorch.log_model(ncf_model, "ncf_pytorch_model")
+        input_example = (torch.tensor([0], dtype=torch.long), torch.tensor([0], dtype=torch.long))
+        mlflow.pytorch.log_model(ncf_model, "ncf_pytorch_model", input_example=input_example)
         
         print("==================================================")
         print(" Training Successfully Completed & Saved to MLflow ")
